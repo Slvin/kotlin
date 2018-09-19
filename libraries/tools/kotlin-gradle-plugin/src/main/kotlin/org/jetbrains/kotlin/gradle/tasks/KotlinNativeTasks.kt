@@ -237,8 +237,7 @@ open class KotlinNativeCompile : AbstractCompile() {
                 // Support only klib files for now.
                 it.extension == "klib" && !it.providedByCompiler(project)
             }.forEach { library ->
-                library.parent?.let { addArg("-r", it) }
-                addArg("-l", library.nameWithoutExtension)
+                addArg("-l", library.absolutePath)
             }
         }
 
@@ -349,8 +348,7 @@ open class CInteropProcess: DefaultTask() {
                 // Support only klib files for now.
                 it.extension == "klib" && !it.providedByCompiler(project)
             }.forEach { library ->
-                library.parent?.let { addArg("-r", it) }
-                addArg("-l", library.nameWithoutExtension)
+                addArg("-l", library.absolutePath)
             }
 
             addArgs("-copt", allHeadersDirs.map { "-I${it.absolutePath}" })
