@@ -37,6 +37,7 @@ abstract class KotlinGradleAbstractMultiplatformModuleBuilder : GradleModuleBuil
             val rootDir = module.rootManager.contentRoots.firstOrNull() ?: return
             val buildGradle = rootDir.findOrCreateChildData(null, "build.gradle")
             val builder = BuildScriptDataBuilder(buildGradle)
+            builder.setupAdditionalDependencies()
             GradleKotlinMPPFrameworkSupportProvider().addSupport(builder, module, sdk = null, specifyPluginVersionIfNeeded = true)
             VfsUtil.saveText(buildGradle, builder.buildConfigurationPart() + builder.buildMainPart() + buildMultiPlatformPart())
         } finally {
@@ -45,6 +46,8 @@ abstract class KotlinGradleAbstractMultiplatformModuleBuilder : GradleModuleBuil
     }
 
     protected abstract fun buildMultiPlatformPart(): String
+
+    protected open fun BuildScriptDataBuilder.setupAdditionalDependencies() {}
 
     companion object {
         const val productionSuffix = "Main"
