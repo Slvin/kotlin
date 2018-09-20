@@ -11,6 +11,7 @@ import com.intellij.openapi.externalSystem.service.project.wizard.ExternalModule
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.roots.ui.configuration.ModulesProvider
 import com.intellij.openapi.vfs.VfsUtil
+import com.intellij.openapi.vfs.VirtualFile
 import org.jetbrains.kotlin.idea.KotlinIcons
 import org.jetbrains.kotlin.idea.util.rootManager
 import org.jetbrains.plugins.gradle.frameworkSupport.BuildScriptDataBuilder
@@ -40,6 +41,7 @@ abstract class KotlinGradleAbstractMultiplatformModuleBuilder : GradleModuleBuil
             builder.setupAdditionalDependencies()
             GradleKotlinMPPFrameworkSupportProvider().addSupport(builder, module, sdk = null, specifyPluginVersionIfNeeded = true)
             VfsUtil.saveText(buildGradle, builder.buildConfigurationPart() + builder.buildMainPart() + buildMultiPlatformPart())
+            createProjectSkeleton(module, rootDir)
         } finally {
             flushSettingsGradleCopy(module)
         }
@@ -48,6 +50,15 @@ abstract class KotlinGradleAbstractMultiplatformModuleBuilder : GradleModuleBuil
     protected abstract fun buildMultiPlatformPart(): String
 
     protected open fun BuildScriptDataBuilder.setupAdditionalDependencies() {}
+
+    protected fun VirtualFile.createKotlinSampleFileWriter(sourceRootName: String, fileName: String = "Sample.kt") =
+        createChildDirectory(this, sourceRootName)
+            .createChildDirectory(this, "kotlin")
+            .createChildDirectory(this, "sample")
+            .createChildData(this, fileName)
+            .getOutputStream(this).bufferedWriter()
+
+    protected open fun createProjectSkeleton(module: Module, rootDir: VirtualFile) {}
 
     companion object {
         const val productionSuffix = "Main"
