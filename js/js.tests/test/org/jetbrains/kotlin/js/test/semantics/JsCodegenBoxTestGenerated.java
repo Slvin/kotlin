@@ -11639,6 +11639,39 @@ public class JsCodegenBoxTestGenerated extends AbstractJsCodegenBoxTest {
                 runTest("compiler/testData/codegen/box/inlineClasses/hiddenConstructor/secondaryConstructor.kt");
             }
         }
+
+        @TestMetadata("compiler/testData/codegen/box/inlineClasses/interfaceMethodCalls")
+        @TestDataPath("$PROJECT_ROOT")
+        @RunWith(JUnit3RunnerWithInners.class)
+        public static class InterfaceMethodCalls extends AbstractJsCodegenBoxTest {
+            private void runTest(String testDataFilePath) throws Exception {
+                KotlinTestUtils.runTest0(this::doTest, TargetBackend.JS, testDataFilePath);
+            }
+
+            public void testAllFilesPresentInInterfaceMethodCalls() throws Exception {
+                KotlinTestUtils.assertAllTestsPresentByMetadata(this.getClass(), new File("compiler/testData/codegen/box/inlineClasses/interfaceMethodCalls"), Pattern.compile("^(.+)\\.kt$"), TargetBackend.JS, true);
+            }
+
+            @TestMetadata("defaultInterfaceExtensionFunCall.kt")
+            public void testDefaultInterfaceExtensionFunCall() throws Exception {
+                runTest("compiler/testData/codegen/box/inlineClasses/interfaceMethodCalls/defaultInterfaceExtensionFunCall.kt");
+            }
+
+            @TestMetadata("defaultInterfaceMethodCall.kt")
+            public void testDefaultInterfaceMethodCall() throws Exception {
+                runTest("compiler/testData/codegen/box/inlineClasses/interfaceMethodCalls/defaultInterfaceMethodCall.kt");
+            }
+
+            @TestMetadata("genericDefaultInterfaceMethodCall.kt")
+            public void testGenericDefaultInterfaceMethodCall() throws Exception {
+                runTest("compiler/testData/codegen/box/inlineClasses/interfaceMethodCalls/genericDefaultInterfaceMethodCall.kt");
+            }
+
+            @TestMetadata("genericInterfaceMethodCall.kt")
+            public void testGenericInterfaceMethodCall() throws Exception {
+                runTest("compiler/testData/codegen/box/inlineClasses/interfaceMethodCalls/genericInterfaceMethodCall.kt");
+            }
+        }
     }
 
     @TestMetadata("compiler/testData/codegen/box/innerNested")
