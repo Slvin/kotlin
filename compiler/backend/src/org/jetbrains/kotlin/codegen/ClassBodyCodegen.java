@@ -216,7 +216,7 @@ public abstract class ClassBodyCodegen extends MemberCodegen<KtPureClassOrObject
         return InnerClassConsumer.Companion.classForInnerClassRecord(descriptor, false);
     }
 
-    protected void generateTraitMethods() {
+    protected void generateDelegatesToDefaultImpl() {
         if (isJvmInterface(descriptor)) return;
 
         for (Map.Entry<FunctionDescriptor, FunctionDescriptor> entry : CodegenUtil.getNonPrivateTraitMethods(descriptor).entrySet()) {
